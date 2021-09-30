@@ -1,40 +1,6 @@
 
 
 cc_prebuilt_library_shared {
-    name: "libdtaNfaProvider",
-
-    proprietary: false,
-    owner: "st",
-    system_ext_specific: true,
-    compile_multilib: "both",
-
-    shared_libs: [
-        "libcutils",
-        "libutils",
-        "liblog",
-        "libdl",
-        "libchrome",
-        "libbase",
-        "libc++",
-        "libc",
-        "libm",
-        "libstnfc-nci",
-    ],
-
-	target: {
-		android_arm: {
-			srcs: ["bin/arm/libdtaNfaProvider.so"],
-		},
-		android_arm64: {
-			srcs: ["bin/arm64/libdtaNfaProvider.so"],
-		},
-	},
-	strip: {
-		none:true,
-	},
-}
-
-cc_prebuilt_library_shared {
     name: "libnfc_st_dta",
 
     proprietary: false,
@@ -47,13 +13,15 @@ cc_prebuilt_library_shared {
         "libutils",
         "liblog",
         "libbase",
-        "libdtaNfaProvider",
+        "libchrome",
+        "libnativehelper",
+        "libstnfc-nci",
     ],
 
-    export_include_dirs :
-    [
-    "inc",
-    ],
+    // export_include_dirs :
+    // [
+    // "inc",
+    // ],
 
 
 	target: {
@@ -69,19 +37,10 @@ cc_prebuilt_library_shared {
 	},
 }
 
-prebuilt_etc {
-    name: "ixitdata.xml",
-    proprietary: false,
-    owner: "st",
-
-    src: "res/ixitdata_micropross.xml",
-}
-
 android_app_import {
     name: "STNFCDta",
     system_ext_specific: true,
     owner: "st",
-    // Make sure the build system doesn't try to resign the APK
     dex_preopt: {
         enabled: false,
     },
@@ -90,5 +49,5 @@ android_app_import {
             apk: "bin/STNFCDta.apk",
         },
     },
-    presigned: true,
+    certificate: "platform",
 }
